@@ -1,16 +1,26 @@
-import React from 'react'
+import { useSnapshot } from 'valtio';
 
-import CustomButton from './CustomButton'
+import state from '../store';
+import CustomButton from './CustomButton';
+
 
 const FilePicker = ({ file, setFile, readFile }) => {
+
+  const snapshot = useSnapshot(state); 
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    state.logoDecal = URL.createObjectURL(selectedFile);
+  };
+  
   return (
     <div className="filepicker-container">
       <div className="flex-1 flex flex-col">
         <input 
-          id="file-upload"
+          id="file-upload" 
           type="file"
           accept="image/*"
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={handleFileChange}
         />
         <label htmlFor="file-upload" className="filepicker-label">
           Upload File

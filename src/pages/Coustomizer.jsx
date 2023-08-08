@@ -1,12 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSnapshot } from 'valtio';
-
 import { AiPicker, ColorPicker, CustomButton, FilePicker, Tab } from '../components';
 import { DecalTypes, EditorTabs, FilterTabs } from '../config/constants';
 import { reader } from '../config/helpers';
 import { fadeAnimation, slideAnimation } from '../config/motion';
 import state from '../store';
+
 
 const Coustomizer = () => {
   const snap = useSnapshot(state);
@@ -18,13 +18,14 @@ const Coustomizer = () => {
     stylishShirt: false,
   })
 
+
   // show tab content depending on the active tab
   const generateTabContent = () => {
     switch (activeEditorTab) {
       case 'colorpicker':
         return <ColorPicker />
       case 'filepicker':
-        return <FilePicker
+        return <FilePicker 
           file={file}
           setFile={setFile}
           readFile={readFile}
@@ -36,24 +37,10 @@ const Coustomizer = () => {
     }
   }
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
   const handleDecals = (type, result) => {
     const decalType = DecalTypes[type];
 
-    state[decalType.satatProperty] = result;
+    state[decalType.stateProperty] = result;
 
     if (!activeFilterTab[decalType.filterTab]) {
       handleActiveFilterTab(decalType.filterTab)
@@ -63,6 +50,7 @@ const Coustomizer = () => {
   const handleActiveFilterTab = (tabName) => {
     switch (tabName) {
       case 'logoShirt':
+
         state.isLogoTexture = !activeFilterTab[tabName];
         break;
       case 'stylishShirt':
@@ -77,7 +65,7 @@ const Coustomizer = () => {
 
     // after setting the state, activeFilterTab is updated
     setActiveFilterTab((prevState) => {
-      return{
+      return {
         ...prevState,
         [tabName]: !prevState[tabName],
       }
@@ -138,8 +126,6 @@ const Coustomizer = () => {
               />
             ))}
           </motion.div>
-
-
         </>
       )}
     </AnimatePresence>
